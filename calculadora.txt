@@ -1,0 +1,210 @@
+<html><head>
+    <title> Ajuste </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 0 auto;
+        }
+        
+        label {
+            color: #666;
+            font-weight: bold;
+        }
+        
+        input[type="number"],
+        select,
+        button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        input[type="text"] {
+            width: calc(100% - 18px); /* Adjusting width to account for border width */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+        }
+        
+        .error-message {
+            color: #ff0000;
+            margin-top: 5px;
+        }
+
+        /* Estilo para la opción de "Selecciona el número de días en el mes" */
+        select option[value=""] {
+            font-style: italic;
+            background-color: #f0f0f0; /* Cambia el color de fondo */
+            border-top: 1px solid #ccc; /* Añade un borde superior */
+            border-bottom: 1px solid #ccc; /* Añade un borde inferior */
+        }
+    </style>
+
+    <script>
+        function calcularAjuste() {
+            var precioMensualidad = parseFloat(document.getElementById('precioMensualidad').value);
+            var diasEnMes = parseInt(document.getElementById('diasEnMes').value);
+            var diasFaltantes = parseInt(document.getElementById('diasFaltantes').value);
+            var tipoMensualidad = document.getElementById('tipoMensualidad').value;
+            var ajuste;
+
+            var errorMessage = document.getElementById('errorMessage');
+            
+            if (!tipoMensualidad) {
+                errorMessage.textContent = 'Por favor selecciona el tipo de mantenimiento.';
+                return;
+            } else if (!diasEnMes) {
+                errorMessage.textContent = 'Por favor selecciona el mes.';
+                return;
+            } else if (isNaN(precioMensualidad) || isNaN(diasFaltantes)) {
+                errorMessage.textContent = 'Por favor ingresa valores numéricos válidos.';
+                return;
+            } else if (diasFaltantes < 0 || diasFaltantes > diasEnMes) {
+                errorMessage.textContent = 'El número de días faltantes debe estar entre 0 y ' + diasEnMes + '.';
+                return;
+            } else {
+                errorMessage.textContent = '';
+            }
+
+            ajuste = precioMensualidad * (diasFaltantes / diasEnMes);
+            document.getElementById('ajustePrecio').value = ajuste.toFixed(2); // Redondeamos a dos decimales
+        }
+
+        function actualizarPrecioMensualidad() {
+            var tipoMensualidad = document.getElementById('tipoMensualidad').value;
+            var precioMensualidadInput = document.getElementById('precioMensualidad');
+
+            // Establecer el precio de la mensualidad basado en el tipo seleccionado
+            switch (tipoMensualidad) {
+                case 'tipo1':
+                    precioMensualidadInput.value = '2657'; // Precio para el tipo 1
+                    break;
+                case 'tipo2':
+                    precioMensualidadInput.value = '2498'; // Precio para el tipo 2
+                    break;
+                case 'tipo3':
+                    precioMensualidadInput.value = '2598'; // Precio para el tipo 3
+                    break;
+	        case 'tipo4':
+                    precioMensualidadInput.value = '1987'; // Precio para el tipo 1
+                    break;
+                case 'tipo5':
+                    precioMensualidadInput.value = '1824'; // Precio para el tipo 2
+                    break;
+                case 'tipo6':
+                    precioMensualidadInput.value = '1599'; // Precio para el tipo 3
+                    break;
+		   case 'tipo7':
+                    precioMensualidadInput.value = '549'; // Precio para el tipo 3
+                    break;
+	        case 'tipo8':
+                    precioMensualidadInput.value = '2067'; // Precio para el tipo 1
+                    break;
+                case 'tipo9':
+                    precioMensualidadInput.value = '859'; // Precio para el tipo 2
+                    break;
+                case 'tipo10':
+                    precioMensualidadInput.value = '1422'; // Precio para el tipo 3
+                    break;
+		case 'tipo11':
+                    precioMensualidadInput.value = '1999'; // Precio para el tipo 3
+                    break;	     
+                default:
+                    precioMensualidadInput.value = ''; // Borrar el valor si no se selecciona ningún tipo
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('form').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calcularAjuste();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2> Ajuste de Mantenimiento </h2>
+    <form>
+        <label for="tipoMensualidad">Mantenimiento:</label><br>
+        <select id="tipoMensualidad" name="tipoMensualidad" onchange="actualizarPrecioMensualidad()">
+            <option value="">Selecciona el tipo de mensualidad</option>
+            <option value="tipo1">AllClub</option>
+            <option value="tipo2">UniClub</option>
+            <option value="tipo3">BiClub</option>
+            <option value="tipo4">Part Time All</option>
+            <option value="tipo5">Part Time</option>
+            <option value="tipo6">Pink</option>
+	    <option value="tipo7">Híbrida</option>
+	    <option value="tipo8">Juvenil All</option>
+	    <option value="tipo9">Juvenil Vespertino</option>
+	    <option value="tipo10">Infantil</option>
+	    <option value="tipo11">Flash</option>
+            
+        </select><br>
+
+        <label for="precioMensualidad">Precio de la Mensualidad:</label><br>
+        <input type="number" id="precioMensualidad" name="precioMensualidad" min="0" step="0.01" readonly=""><br>
+
+        <label for="diasEnMes">Mes:</label><br>
+        <select id="diasEnMes" name="diasEnMes">
+            <option value="">Selecciona Mes</option>
+            <option value="31">Enero</option>
+            <option value="28">Febrero</option>
+            <option value="31">Marzo</option>
+            <option value="30">Abril</option>
+            <option value="31">Mayo</option>
+            <option value="30">Junio</option>
+            <option value="31">Julio</option>
+            <option value="31">Agosto</option>
+            <option value="30">Septiembre</option>
+            <option value="31">Octubre</option>
+            <option value="30">Noviembre</option>
+            <option value="31">Diciembre</option>
+        </select><br>
+
+        <label for="diasFaltantes">Días Faltantes del Mes:</label><br>
+        <input type="number" id="diasFaltantes" name="diasFaltantes" min="0" max="31"><br>
+
+        <div class="error-message" id="errorMessage">Por favor ingresa valores numéricos válidos.</div><br>
+
+        <button type="button" onclick="calcularAjuste()">Calcular</button><br>
+
+        <label for="ajustePrecio">Ajuste de Precio:</label><br>
+        <input type="text" id="ajustePrecio" name="ajustePrecio" readonly=""><br>
+    </form>
+
+</body></html>
